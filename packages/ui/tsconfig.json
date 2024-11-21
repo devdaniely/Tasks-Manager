@@ -1,0 +1,12 @@
+{
+  "extends": "tsconfig/base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
+    "target": "ES2022",
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+    "baseUrl": "./"
+  },
+  "include": ["src"]
+}

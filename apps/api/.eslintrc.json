@@ -1,0 +1,6 @@
+{
+  "extends": ["custom/server"],
+  "rules": {
+    "no-await-in-loop": "off"
+  }
+}

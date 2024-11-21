@@ -1,0 +1,35 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 8080",
+    "clean": "rm -rf .turbo node_modules dist .next test-results playwright-report",
+    "build": "next build",
+    "start": "next start -p 8080",
+    "lint": "tsc --noEmit && next lint"
+  },
+  "dependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.3",
+    "next": "^14.2.10",
+    "normalize.css": "^8.0.1",
+    "ui": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@next/eslint-plugin-next": "^13.5.4",
+    "@types/node": "^20.8.5",
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
+    "autoprefixer": "^10.4.19",
+    "eslint-config-custom": "workspace:*",
+    "postcss": "^8.4.38",
+    "prettier": "^3.0.3",
+    "tailwind-config": "workspace:*",
+    "tailwindcss": "^3.4.3",
+    "tsconfig": "workspace:*",
+    "typescript": "5.2.2"
+  }
+}

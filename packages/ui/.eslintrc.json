@@ -1,0 +1,21 @@
+{
+  "extends": "custom/next",
+  "rules": {
+    // all of the rules we turned off in the custom/next config that should be on
+    "@typescript-eslint/prefer-nullish-coalescing": "error",
+    "@typescript-eslint/restrict-template-expressions": "error",
+    "@typescript-eslint/restrict-plus-operands": "error",
+    "@typescript-eslint/prefer-optional-chain": "error",
+
+    "@typescript-eslint/no-unsafe-member-access": "error",
+    "@typescript-eslint/no-unsafe-assignment": "error",
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unsafe-call": "error",
+    "@typescript-eslint/no-unsafe-argument": "error",
+    "@typescript-eslint/no-unsafe-return": "error",
+
+    // fixing an error in the linting because this is not a Next.js project
+    "@next/next/no-html-link-for-pages": "off"
+  }
+}
