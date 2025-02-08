@@ -1,5 +1,5 @@
 import express from 'express'
-import DatabaseConnector from './databaseConnector.js'
+import DatabaseConnector from '@app/database'
 
 
 const app = express()

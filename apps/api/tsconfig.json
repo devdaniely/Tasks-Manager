@@ -6,11 +6,7 @@
     "baseUrl": "./",
     "incremental": true,
     "noImplicitAny": false,
-    "allowJs": true,
-    "paths": {
-      "@app/*": ["src/*"],               // Set alias for src folder
-      "@dist/*": ["dist/*"]              // Set alias for dist folder
-    }
+    "allowJs": true
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]

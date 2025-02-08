@@ -26,12 +26,12 @@ importers:
 
   apps/api:
     dependencies:
+      '@app/database':
+        specifier: workspace:*
+        version: link:../../packages/database
       express:
         specifier: ^4.20.0
         version: 4.20.0
-      pg-promise:
-        specifier: ^11.10.2
-        version: 11.10.2(pg-query-stream@4.7.1)
       ts-import:
         specifier: 5.0.0-beta.0
         version: 5.0.0-beta.0(typescript@5.2.2)
@@ -129,6 +129,10 @@ importers:
         version: 5.2.2
 
   packages/database:
+    dependencies:
+      pg-promise:
+        specifier: ^11.10.2
+        version: 11.10.2(pg-query-stream@4.7.1)
     devDependencies:
       '@types/node':
         specifier: ^20.8.5

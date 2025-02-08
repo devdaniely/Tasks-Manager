@@ -1,5 +1,5 @@
 {
-  "name": "database",
+  "name": "@app/database",
   "version": "1.0.0",
   "description": "Pirros Database Package",
   "author": "Pirros, Inc.",
@@ -8,13 +8,17 @@
   "license": "UNLICENSED",
   "main": "./dist/index.js",
   "types": "./src/index.ts",
-  "scripts": {
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": { 
     "build": "tsup",
     "clean": "rm -rf .turbo node_modules dist",
     "dev": "tsup --watch",
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\""
   },
   "dependencies": {
+    "pg-promise": "^11.10.2"
   },
   "devDependencies": {
     "@types/node": "^20.8.5",
