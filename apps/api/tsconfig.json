@@ -5,7 +5,13 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "allowJs": true,
+    "paths": {
+      "@app/*": ["src/*"],               // Set alias for src folder
+      "@dist/*": ["dist/*"]              // Set alias for dist folder
+    }
   },
-  "include": ["src"]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
