@@ -18,16 +18,18 @@ export default class DatabaseConnector {
         console.log("Constructed DatabaseConnector");
     }
 
-    test() {
-        console.log("test1");
-        console.log(this.db);
+    async getUsers(): Promise<any> {
+        console.log("test db connect");
+        return this.db.any('SELECT * FROM "Users"');
+        /*
         this.db.any('SELECT * FROM "Users"')
             .then((data) => {
                 console.log('DATA:', data)
+                users = data
             })
             .catch((error) => {
                 console.log('ERROR:', error)
-            })
+            })*/
     }
 
 

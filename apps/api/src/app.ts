@@ -13,7 +13,25 @@ app.get('/', (req, res) => {
 
 app.get('/newpage', (req, res) => {
   res.send('newpage 1')
-  db.test()
+  var data = db.getUsers()
+  console.log(data)
+  return 
+})
+
+app.get('/users', async (req, res) => {
+  var data = await db.getUsers()
+    .then((data) => {
+      console.log("app.js retrieved:")
+      var converted = JSON.stringify(data)
+      console.log(converted)
+
+      res.send(converted)
+    })
+    .catch((error) => { 
+      console.log('ERROR:', error);
+      res.send('users error: ' + error);
+    });
+
 })
 
 app.listen(port, () => {
