@@ -1,3 +1,7 @@
 {
-  "extends": "custom/next"
+  "extends": "custom/next",
+  "rules": {
+    "@typescript-eslint/no-misused-promises": "off",
+    "no-console": "off"
+  }
 }

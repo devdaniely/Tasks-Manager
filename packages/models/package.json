@@ -1,0 +1,32 @@
+{
+    "name": "@app/models",
+    "version": "1.0.0",
+    "description": "Pirros Models Package",
+    "author": "Pirros, Inc.",
+    "private": true,
+    "type": "module",
+    "license": "UNLICENSED",
+    "main": "./dist/models.js",
+    "types": "./src/models.ts",
+    "exports": {
+      ".": "./src/models.ts"
+    },
+    "scripts": { 
+      "build": "tsup",
+      "clean": "rm -rf .turbo node_modules dist",
+      "dev": "tsup --watch",
+      "lint": "tsc --noEmit && eslint \"src/**/*.ts*\""
+    },
+    "dependencies": {
+    },
+    "devDependencies": {
+      "@types/node": "^20.8.5",
+      "eslint": "^8.50.0",
+      "eslint-config-custom": "workspace:*",
+      "ts-node": "^10.4.0",
+      "tsconfig": "workspace:*",
+      "tsup": "^7.2.0",
+      "typescript": "^5.2.2"
+    }
+  }
+  

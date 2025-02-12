@@ -12,11 +12,17 @@
   },
   "dependencies": {
     "@app/database": "workspace:*",
+    "@app/models": "workspace:*",
+    "@types/crypto-js": "^4.2.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
     "express": "^4.20.0",
     "ts-import": "5.0.0-beta.0"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^4.17.18",
     "@types/node": "^20.7.1",
     "esbuild": "^0.19.4",

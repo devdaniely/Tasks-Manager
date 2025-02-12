@@ -33,7 +33,7 @@ The `Models` package allows the backend and frontend to utilize the same object 
 ### Database Design
 
 This database is separated into 4 tables:
-- **Users** - Stores user data
+- **Users** - Stores user data. NOTE: `username` is UNIQUE
 - **Auth** - Stores authenticating user login data
 - **Tasks** - Stores required Task information and metadata
 - **TaskContent** - Stores optional Task information, custom fields. `task_field` allows for custom field names. `attachment` is a boolean to indicate if the field is an attachment. `content` is the custom field content (in the case that `attachment = true`, content will be a URL to the blob storage provider)
