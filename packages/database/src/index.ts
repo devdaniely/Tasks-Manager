@@ -21,7 +21,7 @@ export default class DatabaseConnector {
 
     async getAllUsers(): Promise<any> {
         console.log("test db connect");
-        return this.db.any('SELECT * FROM "Users"');
+        return this.db.any('SELECT * FROM Users');
         /*
         this.db.any('SELECT * FROM "Users"')
             .then((data) => {
@@ -35,7 +35,7 @@ export default class DatabaseConnector {
 
     async getUserByUsername(username: string): Promise<any> {
         return this.db.one(
-            'SELECT * FROM "Users" AS u INNER JOIN "Auth" AS a ON u.id = a.id WHERE u.username = $1', 
+            'SELECT * FROM Users AS u INNER JOIN Auth AS a ON u.id = a.id WHERE u.username = $1', 
             [username]
         )
     }
@@ -82,18 +82,6 @@ export default class DatabaseConnector {
         
         console.log("CALLING DB")
         console.log(params)
-        // const params = {
-        //     task_id: "bdeedbe2-8f41-4d60-9b76-1bba7f67a2c1",
-        //     created_by: "9127421c-b3b9-4ccb-970a-dd9adf5fc131",
-        //     assigned_to: "22222222-2222-2222-2222-222222222222",
-        //     title: "Test Task",
-        //     description: "This is a sample task",
-        //     due_date: "2025-02-20T12:00:00Z",
-        //     task_contents: JSON.stringify([
-        //         { task_field: "customField1", content: "customData1", attachment: false },
-        //         { task_field: "customField2", content: null, attachment: false }
-        //     ])
-        // };
         return this.db.none(query, params);
     }
 

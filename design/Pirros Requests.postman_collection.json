@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "fde42c43-817f-47f8-8fd4-97a70f6e07b5",
+		"name": "Pirros Interview",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30693322"
+	},
+	"item": [
+		{
+			"name": "GetAllUsers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "loginUser",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"daniel\",\n    \"password\": \"U2FsdGVkX19WUQuWZEpn4NVY3r19XNRZzugO+P3I3So=\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/loginUser",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"loginUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateOrUpdateTask",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"task_id\": \"22222222-2222-2222-2222-222222222222\",\n  \"created_by\": \"9127421c-b3b9-4ccb-970a-dd9adf5fc131\",\n  \"assigned_to\": \"\",\n  \"title\": \"test api Title\",\n  \"description\": \"What api description\",\n  \"due_date\": \"\",\n  \"task_contents\": [\n    {\n      \"task_id\": \"22222222-2222-2222-2222-222222222222\",\n      \"task_field\": \"customField1\",\n      \"content\": \"customData1\",\n      \"attachment\": \"false\"\n    },\n    {\n      \"task_id\": \"22222222-2222-2222-2222-222222222222\",\n      \"task_field\": \"customField2\",\n      \"content\": \"url here\",\n      \"attachment\": \"true\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/createOrUpdateTask",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"createOrUpdateTask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "hello",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000",
+					"host": [
+						"localhost"
+					],
+					"port": "3000"
+				}
+			},
+			"response": []
+		}
+	]
+}
