@@ -18,7 +18,8 @@
     "lint": "tsc --noEmit && eslint \"src/**/*.ts*\""
   },
   "dependencies": {
-    "pg-promise": "^11.10.2"
+    "pg-promise": "^11.10.2",
+    "@app/models": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20.8.5",

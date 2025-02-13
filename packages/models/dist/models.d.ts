@@ -5,12 +5,24 @@ declare class User {
     created_at?: string;
     constructor(data: any);
 }
-interface Task {
-    id: string;
+declare class Task {
+    task_id: string;
+    created_by: string;
+    assigned_to?: string;
     title: string;
-    description: string;
+    description?: string;
     created_at: string;
-    user_id: string;
+    modified_at?: string;
+    due_date?: string;
+    task_contents: TaskContent[];
+    constructor(data: any);
+}
+declare class TaskContent {
+    task_id: string;
+    task_field: string;
+    content?: string;
+    attachment?: boolean;
+    constructor(data: any);
 }
 
-export { Task, User };
+export { Task, TaskContent, User };

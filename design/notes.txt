@@ -3,4 +3,15 @@
 /opt/homebrew/opt/postgresql@14/bin/postgres -D /opt/homebrew/var/postgresql@14
 
 
+## SQL statements
+
+Create
+
+Update
+
+Delete
+
+Get
+
+
 

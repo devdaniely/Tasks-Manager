@@ -1,6 +1,6 @@
 import express from 'express'
 import bodyParser from 'body-parser';
-import { getAllUsers, loginUser } from './controller.js';
+import { createOrUpdateTask, getAllUsers, loginUser } from './controller.js';
 
 const app = express()
 const port = 3000
@@ -13,6 +13,8 @@ app.get('/', (req, res) => {
 app.get('/users', getAllUsers)
 
 app.post('/loginUser', loginUser);
+
+app.post('/createOrUpdateTask', createOrUpdateTask);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

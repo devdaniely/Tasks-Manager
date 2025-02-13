@@ -163,6 +163,9 @@ importers:
 
   packages/database:
     dependencies:
+      '@app/models':
+        specifier: workspace:*
+        version: link:../models
       pg-promise:
         specifier: ^11.10.2
         version: 11.10.2(pg-query-stream@4.7.1)

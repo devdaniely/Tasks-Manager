@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs'
 import CryptoJS from 'crypto-js'
 import DatabaseConnector from '@app/database'
-import { User } from '@app/models'
+import { Task, User } from '@app/models'
 
 const db: DatabaseConnector = new DatabaseConnector();
 
@@ -56,4 +56,25 @@ export async function loginUser(req, res) {
         console.log('ERROR:', error);
         res.status(400).send('loginUser error: ' + error);
     });
+}
+
+export async function createOrUpdateTask(req, res) {
+    if (!req.body.task_id) {
+        console.log("createOrUpdateTask: Missing required taskID");
+        res.status(400).send('Missing required taskID');
+        return;
+    }
+
+    console.log("CREATIGN TASK:")
+    const task: Task = new Task(req.body);
+
+    var data = await db.createOrUpdateTask(task)
+        .then((data) => {
+            console.log("Task created/updated:", data);
+            res.status(200).send("Task created/updated! Task_id: " + task.task_id);
+        })
+        .catch((error) => { 
+            console.log('ERROR:', error);
+            res.status(400).send('ERROR creating/updating task: ' + error);
+        });
 }

@@ -1,13 +1,20 @@
 
 /* Create Users */
 
-CREATE OR REPLACE FUNCTION create_user(username text, userRole text, pw text) RETURNS void AS $$
-    DECLARE userId uuid := uuid_generate_v4();
+CREATE OR REPLACE FUNCTION create_user(userName text, userRole text, pw text) RETURNS void AS $$
+
     DECLARE hashedPw varchar := crypt(pw, gen_salt('bf')) ;
-BEGIN
-    INSERT INTO "Users" VALUES (userId, username, userRole, CURRENT_TIMESTAMP);
-    INSERT INTO "Auth" VALUES (userId, hashedPw, 'not used');
-END;
+    BEGIN
+        -- Insert into Users and return the generated UUID
+        WITH new_user AS (
+            INSERT INTO Users (username, role, created_at) 
+            VALUES (userName, userRole, NOW())
+            RETURNING id
+        )
+        -- Insert into Auth using the same UUID
+        INSERT INTO Auth (id, hash_pw, salt)
+        VALUES ((SELECT id FROM new_user), hashedPw, 'not used');
+    END;
 $$ LANGUAGE plpgsql;
 
 
