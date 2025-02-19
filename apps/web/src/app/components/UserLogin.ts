@@ -18,7 +18,7 @@ export async function loginUser(prevState: any, formData: FormData) {
   const response = await fetch("http://localhost:3000/loginUser", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username: username, password: encryptedPassword }),
+    body: JSON.stringify({ username, password: encryptedPassword }),
   });
 
   if (!response.ok) {

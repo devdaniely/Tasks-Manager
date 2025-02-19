@@ -1,26 +1,20 @@
+'use client'
 import React from "react";
+import Stack from '@mui/material/Stack';
+import Button from '@mui/material/Button';
 import Taskbox from "../components/Taskbox";
-//import type { GetServerSideProps } from "next";
-  
+
 const page = () => {
   return(
     <div>
-      <h1>task Page</h1>
+      <h1><b>Task Page</b></h1>
+      <Stack spacing={2} direction="row">
+        <Button variant="contained">Contained</Button>
+        <Button variant="outlined">Outlined</Button>
+      </Stack>
       <Taskbox />
     </div>
   )
 }
-
-/*
-export async function getServerSideProps() {
-
-  const request = await fetch('http://localhost:3000/api/newpage', {cache: "no-store"});
-  const data = await request.json();
-
-  return {
-    props: { data },
-  };
-}
-  */
 
 export default page;

@@ -78,7 +78,6 @@ export async function getAllTasks(req, res) {
             console.log("Retrieved all tasks")
 
             var allData: Task[] = data
-            console.log(allData)
 
             responseMsg.message = "Retrieved all tasks"
             responseMsg.data = JSON.stringify(allData)
