@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { getCookie } from 'cookies-next';
+import { getCookie, deleteCookie } from 'cookies-next';
 import { Button } from '@mui/material';
 import { USER_COOKIE_KEY } from "../components/Constants";
 import Taskbox from "../components/Taskbox";
@@ -32,7 +32,8 @@ function TaskPage() {
 
   return(
     <div>
-      <h1><b>Task Page</b></h1>
+      <h1><b>Tasks Page</b></h1>
+      {hasCookie && <Button variant="contained" onClick={() => deleteCookie(USER_COOKIE_KEY)} href='/users'>Logout</Button>}
       {hasCookie && <Taskbox />}
       {hasCookie && <CreateTaskForm />}
       {!hasCookie && <NotLoggedIn />}

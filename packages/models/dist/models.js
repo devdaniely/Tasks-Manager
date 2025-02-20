@@ -14,7 +14,9 @@ var User = class {
 var Task = class {
   task_id;
   created_by;
+  created_by_id;
   assigned_to;
+  assigned_to_id;
   title;
   description;
   created_at;

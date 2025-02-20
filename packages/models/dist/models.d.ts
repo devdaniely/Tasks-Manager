@@ -8,7 +8,9 @@ declare class User {
 declare class Task {
     task_id: string;
     created_by: string;
+    created_by_id?: string | null;
     assigned_to?: string | null;
+    assigned_to_id?: string | null;
     title: string;
     description?: string;
     created_at: string;

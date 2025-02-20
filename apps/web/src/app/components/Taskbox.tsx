@@ -1,7 +1,9 @@
 import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef } from '@mui/x-data-grid';
-import { Chip } from '@mui/material';
+import { Chip, Tooltip, IconButton } from '@mui/material';
+import AttachmentIcon from '@mui/icons-material/Attachment'
+import { redirect } from 'next/navigation';
 import useSWR from 'swr';
 import type { Task } from '@app/models';
 import { getServerData } from './Utils';
@@ -11,8 +13,30 @@ const defaultColumns: GridColDef[] = [
   { field: 'task_id', headerName: 'Task ID', width: 150, filterable: true, flex: 1 },
   { field: 'title', headerName: 'Title', width: 150, filterable: true, flex: 1 },
   { field: 'description', headerName: 'Description', width: 150, filterable: true, flex: 1 },
-  { field: 'created_by', headerName: 'Created By', width: 150, filterable: true, flex: 1 },
-  { field: 'assigned_to', headerName: 'Assigned To', width: 150, filterable: true, flex: 1 },
+  {
+    field: 'created_by',
+    headerName: 'Created By',
+    width: 150,
+    filterable: true,
+    flex: 1,
+    renderCell: (params: { row: Task }) => (
+      <Tooltip title={params.row.created_by_id || "No ID Available"}>
+        <span>{params.row.created_by}</span> 
+      </Tooltip>
+    )
+  },
+  {
+    field: 'assigned_to',
+    headerName: 'Assigned To',
+    width: 150,
+    filterable: true,
+    flex: 1,
+    renderCell: (params: { row: Task }) => (
+      <Tooltip title={params.row.assigned_to_id || "No ID Available"}> 
+        <span>{params.row.assigned_to}</span>
+      </Tooltip>
+    )
+  },
   { field: 'due_date', headerName: 'Due Date', width: 150, filterable: true, flex: 1 },
   { field: 'created_at', headerName: 'Created At', width: 150, filterable: true, flex: 1 },
   { field: 'modified_at', headerName: 'Modified At', width: 150, filterable: true, flex: 1 },
@@ -59,7 +83,19 @@ export default function TaskBox() {
     renderCell: (params: { row: Task }) => {
       if (!params || !params.row) return ""; 
       const matchingContent = params.row.task_contents.find(content => content.task_field === field);
-      return matchingContent ? <Chip label={matchingContent.content} /> : null;
+      if (matchingContent && matchingContent.content) {
+        if (matchingContent.attachment) {
+          return (
+            <Tooltip title={matchingContent.content}>
+              <IconButton aria-label="attachment" onClick={() => matchingContent.content && redirect(matchingContent.content)}>
+                  <AttachmentIcon />
+              </IconButton>
+            </Tooltip>
+          )
+        }
+        return (<Chip label={matchingContent.content} />)
+    }
+    return null
     },
   }));
 

@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { submitCreateTask } from '../components/Utils';
+import { getUser, submitCreateTask } from '../components/Utils';
 import type { CreateTaskFormData } from './Models';
 
 const style = {
@@ -25,8 +25,20 @@ const style = {
 function CreateTaskForm() {
 
   const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  // Check if userRole is admin before opening modal
+  const handleOpen = async () => {
+    const userInfo = await getUser()
+    if (userInfo.role === 'admin') {
+      setAdminRole(true)
+      setOpen(true)
+    }
+    setCreateTaskClicked(true)
+  }
+  const handleClose = () => {
+    setCreateTaskClicked(false)
+    setAdminRole(false)
+    setOpen(false)
+  }
 
   const initialFormState = {
     title: '',
@@ -46,7 +58,9 @@ function CreateTaskForm() {
   const [formData, setFormData] = useState<CreateTaskFormData>(initialFormState);
   const [newTaskContent, setNewTaskContent] = useState(initialTaskContentState);
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
+  const [adminRole, setAdminRole] = useState(false);
+  const [createTaskClicked, setCreateTaskClicked] = useState(false);
 
   // ========== Start Event Change Handlers ============
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,6 +114,19 @@ function CreateTaskForm() {
   return (
     <div>
       <Button variant="contained" onClick={handleOpen}>Add New Task</Button>
+      <Modal
+        open={createTaskClicked && !adminRole}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Only admins can create tasks!
+          </Typography>
+        </Box>
+      </Modal>
+
       <Modal
         open={open}
         onClose={handleClose}

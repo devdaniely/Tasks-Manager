@@ -127,7 +127,7 @@ export async function createOrUpdateTask(req, res) {
         })
         .catch((error) => { 
             console.log('ERROR:', error)
-            responseMsg.message = "Error creating/updating task"
+            responseMsg.message = error.message
             responseMsg.data = JSON.stringify(error)
             res.status(400).send(responseMsg)
         })
