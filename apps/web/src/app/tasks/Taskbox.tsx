@@ -1,13 +1,16 @@
-import React from 'react';
+'use client'
+import React, { useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import type { GridColDef } from '@mui/x-data-grid';
-import { Chip, Tooltip, IconButton } from '@mui/material';
+import { Chip, Tooltip, IconButton, Modal, Box, Typography } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment'
+import EditIcon from '@mui/icons-material/Edit';
 import { redirect } from 'next/navigation';
 import useSWR from 'swr';
 import type { Task } from '@app/models';
-import { getServerData } from './Utils';
-import { API_TASKS_URL } from './Constants';
+import { API_TASKS_URL, modalStyle } from '../components/Constants';
+import { getServerData, getUser } from '../components/Utils';
+import EditTaskForm from './EditTask';
 
 const defaultColumns: GridColDef[] = [
   { field: 'task_id', headerName: 'Task ID', width: 150, filterable: true, flex: 1 },
@@ -44,6 +47,29 @@ const defaultColumns: GridColDef[] = [
 
 export default function TaskBox() {
 
+  // Setup edit handlers
+  const [adminRole, setAdminRole] = useState(false);
+  const [editTaskClicked, setEditTaskClicked] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+  const editTask = async (task: Task) => {
+    const userInfo = await getUser()
+    if (userInfo.role === 'admin') {
+      setAdminRole(true)
+      setTaskToEdit(task)
+      setIsEditModalOpen(true)
+    }
+    setEditTaskClicked(true)
+  };
+  const closeEditTask = () => {
+    setAdminRole(false)
+    setTaskToEdit(null)
+    setIsEditModalOpen(false)
+    setEditTaskClicked(false)
+  }
+
+
+  // Fetch data
   const { data, isLoading } = useSWR(API_TASKS_URL, getServerData, {
     refreshInterval: 3000,
     keepPreviousData: true,
@@ -69,7 +95,7 @@ export default function TaskBox() {
   });
 
   // Create dynamic columns
-  const dynamicColumns: GridColDef[] = Array.from(uniqueTaskFields).map(field => ({
+  let dynamicColumns: GridColDef[] = Array.from(uniqueTaskFields).map(field => ({
     field,
     headerName: field,
     width: 150,
@@ -84,6 +110,7 @@ export default function TaskBox() {
       if (!params || !params.row) return ""; 
       const matchingContent = params.row.task_contents.find(content => content.task_field === field);
       if (matchingContent && matchingContent.content) {
+        // Create attachment icon if exists
         if (matchingContent.attachment) {
           return (
             <Tooltip title={matchingContent.content}>
@@ -99,6 +126,21 @@ export default function TaskBox() {
     },
   }));
 
+  // Add Edit button to end of columns
+  dynamicColumns = [
+    ...dynamicColumns,
+    {
+        field: 'Edit',
+        headerName: 'Edit',
+        width: 100, 
+        renderCell: (params: { row: Task }) => (
+          <IconButton aria-label="Edit" onClick={() => editTask(params.row)}>
+            <EditIcon />
+          </IconButton>
+        ),
+    }]
+
+
   // Combine static and dynamic columns
   const columns = [...defaultColumns, ...dynamicColumns];
 
@@ -107,13 +149,29 @@ export default function TaskBox() {
   return (
     <div style={{ height: 400, width: '100%' }}>
       <DataGrid rows={rowsWithIds} columns={columns} getRowId={(row) => row.id} />
+        <Modal
+          open={editTaskClicked && !adminRole}
+          onClose={closeEditTask}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={modalStyle}>
+            <Typography id="modal-modal-title" variant="h6" component="h2">
+              Only admins can edit tasks!
+            </Typography>
+          </Box>
+        </Modal>
+
+      {isEditModalOpen && taskToEdit && (
+        <EditTaskForm
+          open={isEditModalOpen}
+          handleClose={closeEditTask}
+          taskDataParam={taskToEdit}
+        />
+      )}
     </div>
   );
 };
-
-
-
-
 
 
 

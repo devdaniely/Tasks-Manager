@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { getCookie, deleteCookie } from 'cookies-next';
 import { Button } from '@mui/material';
 import { USER_COOKIE_KEY } from "../components/Constants";
-import Taskbox from "../components/Taskbox";
+import Taskbox from "./Taskbox";
 import CreateTaskForm from "./CreateTask";
 
 

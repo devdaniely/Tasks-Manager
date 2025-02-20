@@ -7,39 +7,31 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import type { Task } from '@app/models';
 import { modalStyle } from '../components/Constants';
-import { getUser, submitCreateTask } from '../components/Utils';
+import { submitCreateTask } from '../components/Utils';
 import type { CreateTaskFormData } from './Models';
 
+interface EditTaskFormProps {
+  open: boolean;
+  handleClose: () => void;
+  taskDataParam: Task | null;
+}
 
-function CreateTaskForm() {
+function EditTaskForm({ open, handleClose, taskDataParam }: EditTaskFormProps) {
 
-  const [open, setOpen] = useState(false)
-  // Check if userRole is admin before opening modal
-  const handleOpen = async () => {
-    const userInfo = await getUser()
-    if (userInfo.role === 'admin') {
-      setAdminRole(true)
-      setOpen(true)
-    }
-    setCreateTaskClicked(true)
-  }
-  const handleClose = () => {
-    setCreateTaskClicked(false)
-    setAdminRole(false)
-    setOpen(false)
-  }
-
+  const taskData = taskDataParam!
   const initialFormState = {
-    title: '',
-    description: '',
-    due_date: '',
-    assigned_to: '',
-    created_by: '',
-    task_contents: []
+    task_id: taskData.task_id,
+    title: taskData.title,
+    description: taskData.description ? taskData.description : '',
+    due_date: taskData.due_date? taskData.due_date : '',
+    assigned_to: taskData.assigned_to ? taskData.assigned_to : '',
+    created_by: taskData.created_by ? taskData.created_by : '',
+    task_contents: taskData.task_contents
   }
   const initialTaskContentState = {
-    task_id: '',
+    task_id: taskData.task_id,
     task_field: '',
     content: '',
     attachment: false
@@ -49,8 +41,6 @@ function CreateTaskForm() {
   const [newTaskContent, setNewTaskContent] = useState(initialTaskContentState);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [adminRole, setAdminRole] = useState(false);
-  const [createTaskClicked, setCreateTaskClicked] = useState(false);
 
   // ========== Start Event Change Handlers ============
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,20 +93,6 @@ function CreateTaskForm() {
   
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen}>Add New Task</Button>
-      <Modal
-        open={createTaskClicked && !adminRole}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={modalStyle}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Only admins can create tasks!
-          </Typography>
-        </Box>
-      </Modal>
-
       <Modal
         open={open}
         onClose={handleClose}
@@ -125,7 +101,7 @@ function CreateTaskForm() {
       >
         <Box sx={modalStyle}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Create New Task
+            Edit Task
           </Typography>
           {errorMessage && ( // Display error message if it exists
             <Typography color="error" sx={{ mt: 1 }}>
@@ -219,7 +195,15 @@ function CreateTaskForm() {
           ))}
 
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2, alignItems: 'center' }}>
+            <Button 
+              variant="contained" 
+              color="error"
+              //onClick={handleDelete} // Add onClick handler
+              disabled={loading}
+            >
+              Delete
+            </Button>
             <Button onClick={handleClose} sx={{ mr: 1 }}>Cancel</Button>
             <Button variant="contained" onClick={handleSubmit} 
               disabled={loading}>
@@ -233,4 +217,4 @@ function CreateTaskForm() {
   );
 };
 
-export default CreateTaskForm;
+export default EditTaskForm;

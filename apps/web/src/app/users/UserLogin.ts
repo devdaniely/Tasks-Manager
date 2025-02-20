@@ -1,7 +1,7 @@
 'use server'
 import CryptoJS from 'crypto-js'
 import { cookies } from "next/headers"
-import { API_LOGIN_URL, USER_COOKIE_KEY } from './Constants';
+import { API_LOGIN_URL, USER_COOKIE_KEY } from '../components/Constants';
 
 
 export async function loginUser(prevState: any, formData: FormData) {
@@ -10,7 +10,7 @@ export async function loginUser(prevState: any, formData: FormData) {
   const password = formData.get("password") as string;
 
   if (!username || !password) {
-    return {error: "Login failed!"}
+    return { error: "Login failed!" };
   }
 
   // Encrypting the pw since we're not using HTTPS, sort of hacky
@@ -28,9 +28,9 @@ export async function loginUser(prevState: any, formData: FormData) {
   }
 
   // Save user info
-  const responseData = await response.json()
-  const cookieStore = await cookies()
-  cookieStore.set(USER_COOKIE_KEY, responseData.data)
+  const responseData = await response.json();
+  const cookieStore = await cookies();
+  cookieStore.set(USER_COOKIE_KEY, responseData.data);
 
   return { success: "✅ Login successful!" };
 }

@@ -1,41 +1,9 @@
 'use server'
-import CryptoJS from 'crypto-js'
-import { cookies } from 'next/headers';
 import { getCookie } from 'cookies-next';
+import { cookies } from "next/headers"
 import type { User } from '@app/models';
 import type { CreateTaskFormData } from "../tasks/Models";
-import { API_CREATE_UPDATE_TASK_URL, API_LOGIN_URL, API_TASKS_URL, USER_COOKIE_KEY } from "./Constants";
-
-export async function loginUser(prevState: any, formData: FormData) {
-  console.log("Attempting to login...");
-  const username = formData.get("username") as string;
-  const password = formData.get("password") as string;
-
-  if (!username || !password) {
-    return {error: "Login failed!"}
-  }
-
-  // Encrypting the pw since we're not using HTTPS, sort of hacky
-  const encryptedPassword = CryptoJS.AES.encrypt(password, "pirros_passphrase").toString();
-
-  // Send POST request with just the username
-  const response = await fetch(API_LOGIN_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ username, password: encryptedPassword }),
-  });
-
-  if (!response.ok) {
-    return { error: "Login failed!" };
-  }
-
-  // Save user info
-  const responseData = await response.json()
-  const cookieStore = await cookies()
-  cookieStore.set(USER_COOKIE_KEY, responseData.data)
-
-  return { success: "✅ Login successful!" };
-}
+import { API_CREATE_UPDATE_TASK_URL, API_TASKS_URL, USER_COOKIE_KEY } from "./Constants";
 
 export async function getUser() {
   const value = await getCookie(USER_COOKIE_KEY, { cookies });
@@ -60,8 +28,10 @@ export async function submitCreateTask(formData: CreateTaskFormData) {
 
   try {
     // Add userId to request
-    const userInfo: User = await getUser();
-    formData.created_by = userInfo.username
+    if (!formData.created_by) {
+      const userInfo: User = await getUser();
+      formData.created_by = userInfo.username
+    }
 
     console.log("Submitting CreateUpdateTask Request")
     console.log(formData)
@@ -85,4 +55,5 @@ export async function submitCreateTask(formData: CreateTaskFormData) {
     console.error('Error submitting form:', error);
     return {message: 'One or more fields is invalid!', error: true}
   }
-};
+}
+

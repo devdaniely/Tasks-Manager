@@ -3,7 +3,7 @@ import React from 'react'
 import { useFormState } from "react-dom";
 import Form from 'next/Form';
 import { redirect } from 'next/navigation'
-import { loginUser } from '../components/Utils';
+import { loginUser } from './UserLogin';
 
 
 // interface User {

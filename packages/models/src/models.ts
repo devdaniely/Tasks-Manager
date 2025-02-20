@@ -19,9 +19,9 @@ export class Task {
     assigned_to?: string | null
     assigned_to_id?: string | null
     title: string
-    description?: string
+    description?: string | null
     created_at: string
-    modified_at?: string
+    modified_at?: string | null
     due_date?: string | null
     
     // Task Content
