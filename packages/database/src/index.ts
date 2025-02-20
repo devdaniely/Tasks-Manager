@@ -65,12 +65,12 @@ export default class DatabaseConnector {
             VALUES (
                 \${task_id}, 
                 \${created_by}, 
-                \${assigned_to}, 
+                NULLIF(\${assigned_to}, null::uuid),
                 \${title}, 
                 \${description}, 
                 NOW(), 
                 NOW(),
-                \${due_date}
+                NULLIF(\${due_date}, null::timestamp)
             )
             ON CONFLICT (task_id) DO UPDATE 
             SET 

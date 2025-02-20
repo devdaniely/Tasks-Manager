@@ -49,10 +49,12 @@ export default function TaskBox() {
     flex: 1,
     filterable: true,
     valueGetter: (params: { row: Task }) => {
+      if (!params || !params.row) return "";
       const matchingContent = params.row.task_contents.find(content => content.task_field === field);
       return matchingContent ? matchingContent.content : "";
     },
     renderCell: (params: { row: Task }) => {
+      if (!params || !params.row) return ""; 
       const matchingContent = params.row.task_contents.find(content => content.task_field === field);
       return matchingContent ? <Chip label={matchingContent.content} variant="outlined" /> : null;
     },

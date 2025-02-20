@@ -3,6 +3,7 @@
   "rules": {
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/no-confusing-void-expression": "off",
+    "@typescript-eslint/no-unnecessary-condition": "off",
     "no-console": "off",
     "react/jsx-curly-brace-presence": "off"
   }

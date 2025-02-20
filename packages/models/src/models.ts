@@ -15,12 +15,12 @@ export class User {
 export class Task {
     task_id: string
     created_by: string
-    assigned_to?: string
+    assigned_to?: string | null
     title: string
     description?: string
     created_at: string
     modified_at?: string
-    due_date?: string
+    due_date?: string | null
     
     // Task Content
     task_contents: TaskContent[]

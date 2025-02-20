@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs'
 import CryptoJS from 'crypto-js'
+import { v4 as uuid } from 'uuid';
 import DatabaseConnector from '@app/database'
 import { Task, User } from '@app/models'
 
@@ -92,15 +93,30 @@ export async function getAllTasks(req, res) {
 }
 
 export async function createOrUpdateTask(req, res) {
+
+    var task: Task
+
+    // If taskid is null, generate a new taskid
     if (!req.body.task_id) {
-        console.log("createOrUpdateTask: Missing required taskID")
-        responseMsg.message = "Missing required taskID"
-        responseMsg.data = ""
-        res.status(400).send(responseMsg)
-        return
+        const newTaskId: string = uuid();
+
+        const data: Task = JSON.parse(JSON.stringify(req.body))
+        data.task_id = newTaskId
+        data.task_contents = data.task_contents.map((item) => {
+            item.task_id = newTaskId
+            return item
+        })
+        // If not assigned, assign to self
+        data.assigned_to = data.assigned_to ? data.assigned_to : null
+        data.due_date = data.due_date ? data.due_date : null
+
+        console.log("No Task ID! Creating new task id: ", newTaskId)
+        task = data
+    }
+    else {
+        task = new Task(req.body)
     }
 
-    const task: Task = new Task(req.body)
 
     var data = await db.createOrUpdateTask(task)
         .then((data) => {
