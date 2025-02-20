@@ -1,19 +1,18 @@
-import { CreateTaskFormData } from "../tasks/Models";
+import type { CreateTaskFormData } from "../tasks/Models";
+import { API_CREATE_UPDATE_TASK_URL, API_TASKS_URL } from "./Constants";
 
-export const TASK_URL = 'http://localhost:3000/tasks'
 
 export async function getServerData() {
   console.log("GETTING SERVER DATA - ", new Date().toLocaleString());
-  // Fetch data from external API
-  const res = await fetch('http://localhost:3000/tasks')
+  const res = await fetch(API_TASKS_URL)
   return res.json()
 }
 
 export async function submitCreateTask(formData: CreateTaskFormData) {
-  console.log("FORM DATA ============== ")
+  console.log("Submitting CreateUpdateTask Request")
   console.log(formData)
   try {
-    const response = await fetch('http://localhost:3000/createOrUpdateTask', { 
+    const response = await fetch(API_CREATE_UPDATE_TASK_URL, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -29,5 +28,4 @@ export async function submitCreateTask(formData: CreateTaskFormData) {
   } catch (error) {
     console.error('Error submitting form:', error);
   }
-  return
 };

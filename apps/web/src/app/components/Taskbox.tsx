@@ -4,7 +4,8 @@ import type { GridColDef } from '@mui/x-data-grid';
 import { Chip } from '@mui/material';
 import useSWR from 'swr';
 import type { Task } from '@app/models';
-import { getServerData, TASK_URL } from './Utils';
+import { getServerData } from './Utils';
+import { API_TASKS_URL } from './Constants';
 
 const defaultColumns: GridColDef[] = [
   { field: 'task_id', headerName: 'Task ID', width: 150, filterable: true, flex: 1 },
@@ -19,7 +20,7 @@ const defaultColumns: GridColDef[] = [
 
 export default function TaskBox() {
 
-  const { data, isLoading } = useSWR(TASK_URL, getServerData, {
+  const { data, isLoading } = useSWR(API_TASKS_URL, getServerData, {
     refreshInterval: 3000,
     keepPreviousData: true,
   });

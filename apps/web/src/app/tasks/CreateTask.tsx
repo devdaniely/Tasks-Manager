@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react';
+import dayjs from 'dayjs';
 import { Button, Modal, Box, TextField, Typography, Checkbox, Chip, CircularProgress, FormControlLabel } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -7,8 +8,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { submitCreateTask } from '../components/Utils';
-import { CreateTaskFormData } from './Models';
-import dayjs from 'dayjs';
+import type { CreateTaskFormData } from './Models';
 
 const style = {
   position: 'absolute' as const,
@@ -22,7 +22,7 @@ const style = {
   p: 4,
 };
 
-const CreateTaskForm = () => {
+function CreateTaskForm() {
 
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
