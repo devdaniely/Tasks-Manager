@@ -43,7 +43,7 @@ export default class DatabaseConnector {
                     )
                 ) AS task_contents
             FROM Tasks AS t
-            INNER JOIN TaskContent AS tc ON t.task_id = tc.task_id
+            LEFT JOIN TaskContent AS tc ON t.task_id = tc.task_id
             GROUP BY t.task_id`
 
         return this.db.any(query)

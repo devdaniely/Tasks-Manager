@@ -38,7 +38,9 @@ export default function TaskBox() {
   const uniqueTaskFields = new Set<string>();
   taskData.forEach(task => {
     task.task_contents.forEach(content => {
-      uniqueTaskFields.add(content.task_field);
+      if (content.task_field) {
+        uniqueTaskFields.add(content.task_field);
+      }
     });
   });
 
@@ -57,7 +59,7 @@ export default function TaskBox() {
     renderCell: (params: { row: Task }) => {
       if (!params || !params.row) return ""; 
       const matchingContent = params.row.task_contents.find(content => content.task_field === field);
-      return matchingContent ? <Chip label={matchingContent.content} variant="outlined" /> : null;
+      return matchingContent ? <Chip label={matchingContent.content} /> : null;
     },
   }));
 

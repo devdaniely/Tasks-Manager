@@ -5,5 +5,6 @@ export interface CreateTaskFormData {
   description: string;
   due_date?: string;
   assigned_to?: string;
+  created_by: string;
   task_contents: TaskContent[];
 }

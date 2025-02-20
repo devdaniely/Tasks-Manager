@@ -28,23 +28,25 @@ function CreateTaskForm() {
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  const [formData, setFormData] = useState<CreateTaskFormData>({
+  const initialFormState = {
     title: '',
     description: '',
     due_date: '',
     assigned_to: '',
+    created_by: '',
     task_contents: []
-  });
-
-  const [newTaskContent, setNewTaskContent] = useState({
+  }
+  const initialTaskContentState = {
     task_id: '',
     task_field: '',
     content: '',
     attachment: false
-  });
+  }
 
+  const [formData, setFormData] = useState<CreateTaskFormData>(initialFormState);
+  const [newTaskContent, setNewTaskContent] = useState(initialTaskContentState);
   const [loading, setLoading] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState('')
 
   // ========== Start Event Change Handlers ============
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,9 +77,29 @@ function CreateTaskForm() {
   // ========== End Event Change Handlers ============
 
 
+  // ========== Submit Function ============
+  async function handleSubmit() {
+    setLoading(true);
+    setErrorMessage(''); // Clear previous error message
+
+    const response = await submitCreateTask(formData);
+    if (response.error) {
+      setErrorMessage(response.message);
+    }
+    else {
+      console.log("Response:", response.data);
+      handleClose();
+      setFormData(initialFormState);
+      setNewTaskContent(initialTaskContentState);
+    }
+    setLoading(false);
+  }
+  // ========== Submit Function ============
+
+  
   return (
     <div>
-      <Button variant="contained" onClick={handleOpen}>Open Modal Form</Button>
+      <Button variant="contained" onClick={handleOpen}>Add New Task</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -86,102 +108,104 @@ function CreateTaskForm() {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            Modal Form
+            Create New Task
           </Typography>
+          {errorMessage && ( // Display error message if it exists
+            <Typography color="error" sx={{ mt: 1 }}>
+              {errorMessage}
+            </Typography>
+          )}
           
           <TextField
-          label="Title"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-          required
-        />
-        <TextField
-          label="Description"
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          fullWidth
-          multiline
-          rows={3}
-          margin="normal"
-        />
-
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            label="Due Date"
-            value={formData.due_date ? dayjs(formData.due_date) : null}
-            onChange={handleDateChange}
-            slotProps={{ textField: { fullWidth: true, margin: 'normal' } }}
+            label="Title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+            required
           />
-        </LocalizationProvider>
-
-        <TextField
-          label="Assigned To"
-          name="assigned_to"
-          value={formData.assigned_to}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-
-        <Typography variant="h6" component="h3" sx={{ mt: 2, mb: 1 }}>Task Contents</Typography>
-        <Grid container spacing={2}>
-          <Grid size={4}>
-            <TextField
-              label="Custom Field"
-              name="task_field"
-              value={newTaskContent.task_field}
-              onChange={handleTaskContentChange}
-              fullWidth
-            />
-          </Grid>
-          <Grid size={8}>
-            <TextField
-              label="Content (URL for attachments)"
-              name="content"
-              value={newTaskContent.content}
-              onChange={handleTaskContentChange}
-              fullWidth
-            />
-          </Grid>
-          <Grid size={2}>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  name="attachment"
-                  checked={newTaskContent.attachment}
-                  onChange={(event) => setNewTaskContent({ ...newTaskContent, attachment: event.target.checked })}
-                />
-              }
-              label="Attachment"
-            />
-          </Grid>
-          <Grid size={12}>
-            <Button variant="contained" onClick={handleAddTaskContent} fullWidth>Add Task Content</Button>
-          </Grid>
-        </Grid>
-
-        {formData.task_contents.map((item, index) => (
-          <Chip
-            key={index}
-            label={`${item.task_field}: ${item.content} [Attachment: ${item.attachment}]`}
-            onDelete={() => handleDeleteTaskContent(index)}
-            deleteIcon={<DeleteIcon />} 
-            sx={{ margin: 0.5 }}
+          <TextField
+            label="Description"
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            fullWidth
+            multiline
+            rows={3}
+            margin="normal"
           />
-        ))}
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
+              label="Due Date"
+              value={formData.due_date ? dayjs(formData.due_date) : null}
+              onChange={handleDateChange}
+              slotProps={{ textField: { fullWidth: true, margin: 'normal' } }}
+            />
+          </LocalizationProvider>
+
+          <TextField
+            label="Assign To"
+            name="assigned_to"
+            value={formData.assigned_to}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+
+          <Typography variant="h6" component="h3" sx={{ mt: 2, mb: 1 }}>Task Contents</Typography>
+          <Grid container spacing={2}>
+            <Grid size={4}>
+              <TextField
+                label="Custom Field"
+                name="task_field"
+                value={newTaskContent.task_field}
+                onChange={handleTaskContentChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid size={8}>
+              <TextField
+                label="Content (URL for attachments)"
+                name="content"
+                value={newTaskContent.content}
+                onChange={handleTaskContentChange}
+                fullWidth
+              />
+            </Grid>
+            <Grid size={2}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    name="attachment"
+                    checked={newTaskContent.attachment}
+                    onChange={(event) => setNewTaskContent({ ...newTaskContent, attachment: event.target.checked })}
+                  />
+                }
+                label="Attachment"
+              />
+            </Grid>
+            <Grid size={12}>
+              <Button variant="contained" onClick={handleAddTaskContent} fullWidth>Add Task Content</Button>
+            </Grid>
+          </Grid>
+
+          {formData.task_contents.map((item, index) => (
+            <Chip
+              key={index}
+              label={`${item.task_field}: ${item.content} [Attachment: ${item.attachment}]`}
+              onDelete={() => handleDeleteTaskContent(index)}
+              deleteIcon={<DeleteIcon />} 
+              sx={{ margin: 0.5 }}
+            />
+          ))}
 
 
           <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 2 }}>
             <Button onClick={handleClose} sx={{ mr: 1 }}>Cancel</Button>
-            <Button variant="contained" onClick={async () => {
-                setLoading(true)
-                await submitCreateTask(formData)
-              }} 
-              disabled={loading}> {/* Disable while loading */}
+            <Button variant="contained" onClick={handleSubmit} 
+              disabled={loading}>
               {loading ? <CircularProgress size={20} sx={{ color: 'white', mr: 1 }} /> : null} {/* Loading indicator */}
             Submit
           </Button>
