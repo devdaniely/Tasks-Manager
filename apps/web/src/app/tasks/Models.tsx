@@ -8,4 +8,5 @@ export interface CreateTaskFormData {
   assigned_to?: string;
   created_by: string;
   task_contents: TaskContent[];
+  task_id?: string | null;
 }

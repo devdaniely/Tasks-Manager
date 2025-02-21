@@ -9,7 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import type { Task } from '@app/models';
 import { modalStyle } from '../components/Constants';
-import { submitCreateTask } from '../components/Utils';
+import { submitCreateTask, submitDeleteTask } from '../components/Utils';
 import type { CreateTaskFormData } from './Models';
 
 interface EditTaskFormProps {
@@ -77,6 +77,23 @@ function EditTaskForm({ open, handleClose, taskDataParam }: EditTaskFormProps) {
     setErrorMessage(''); // Clear previous error message
 
     const response = await submitCreateTask(formData);
+    if (response.error) {
+      setErrorMessage(response.message);
+    }
+    else {
+      console.log("Response:", response.data);
+      handleClose();
+      setFormData(initialFormState);
+      setNewTaskContent(initialTaskContentState);
+    }
+    setLoading(false);
+  }
+
+  async function handleSubmitDeleteTask(taskId: string) {
+    setLoading(true);
+    setErrorMessage('');
+
+    const response = await submitDeleteTask(taskId);
     if (response.error) {
       setErrorMessage(response.message);
     }
@@ -199,7 +216,7 @@ function EditTaskForm({ open, handleClose, taskDataParam }: EditTaskFormProps) {
             <Button 
               variant="contained" 
               color="error"
-              //onClick={handleDelete} // Add onClick handler
+              onClick={() => formData.task_id && handleSubmitDeleteTask(formData.task_id)}
               disabled={loading}
             >
               Delete

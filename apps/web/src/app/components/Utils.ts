@@ -3,7 +3,7 @@ import { getCookie } from 'cookies-next';
 import { cookies } from "next/headers"
 import type { User } from '@app/models';
 import type { CreateTaskFormData } from "../tasks/Models";
-import { API_CREATE_UPDATE_TASK_URL, API_TASKS_URL, USER_COOKIE_KEY } from "./Constants";
+import { API_CREATE_UPDATE_TASK_URL, API_DELETE_TASK_URL, API_TASKS_URL, USER_COOKIE_KEY } from "./Constants";
 
 export async function getUser() {
   const value = await getCookie(USER_COOKIE_KEY, { cookies });
@@ -18,6 +18,25 @@ export async function getServerData() {
   console.log("GETTING SERVER DATA - ", new Date().toLocaleString());
   const res = await fetch(API_TASKS_URL)
   return res.json()
+}
+
+export async function submitDeleteTask(taskId: string) {
+  console.log("Submitting DeleteTask Request: ", taskId)
+  const response = await fetch(API_DELETE_TASK_URL, { 
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({"task_id": taskId})
+  });
+
+  const responseData = await response.json()
+
+  if (!response.ok) {
+    console.log(responseData)
+    return {message: responseData.message, error: true}
+  }
+  return {message: 'Task Deleted!', error: false, data: responseData}
 }
 
 export async function submitCreateTask(formData: CreateTaskFormData) {
