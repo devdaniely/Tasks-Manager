@@ -25,6 +25,27 @@
 			"response": []
 		},
 		{
+			"name": "GetAllTasks",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/tasks",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "loginUser",
 			"request": {
 				"auth": {
@@ -64,7 +85,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"task_id\": \"22222222-2222-2222-2222-222222222222\",\n  \"created_by\": \"9127421c-b3b9-4ccb-970a-dd9adf5fc131\",\n  \"assigned_to\": \"\",\n  \"title\": \"test api Title\",\n  \"description\": \"What api description\",\n  \"due_date\": \"\",\n  \"task_contents\": [\n    {\n      \"task_id\": \"22222222-2222-2222-2222-222222222222\",\n      \"task_field\": \"customField1\",\n      \"content\": \"customData1\",\n      \"attachment\": \"false\"\n    },\n    {\n      \"task_id\": \"22222222-2222-2222-2222-222222222222\",\n      \"task_field\": \"customField2\",\n      \"content\": \"url here\",\n      \"attachment\": \"true\"\n    }\n  ]\n}",
+					"raw": "{\n  \"task_id\": \"22222222-2222-2222-2222-222222222222\",\n  \"created_by\": \"9127421c-b3b9-4ccb-970a-dd9adf5fc131\",\n  \"assigned_to\": \"\",\n  \"title\": \"test api Title\",\n  \"description\": \"What api description\",\n  \"due_date\": \"\",\n  \"task_contents\": [\n    {\n      \"task_id\": \"22222222-2222-2222-2222-222222222222\",\n      \"task_field\": \"customField1\",\n      \"content\": \"customData1\",\n      \"attachment\": \"false\"\n    },\n    {\n      \"task_id\": \"22222222-2222-2222-2222-222222222222\",\n      \"task_field\": \"customField2\",\n      \"content\": \"https://www.cte.iup.edu/cte/Resources/PDF_TestPage.pdf\",\n      \"attachment\": \"true\"\n    }\n  ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -79,6 +100,126 @@
 					"port": "3000",
 					"path": [
 						"createOrUpdateTask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateOrUpdateTask Copy",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"task_id\": \"33333333-2222-2222-2222-222222222222\",\n  \"created_by\": \"9127421c-b3b9-4ccb-970a-dd9adf5fc131\",\n  \"assigned_to\": \"\",\n  \"title\": \"test delete Title\",\n  \"description\": \"delete api description\",\n  \"due_date\": \"2025-05-25\",\n  \"task_contents\": [\n    {\n      \"task_id\": \"33333333-2222-2222-2222-222222222222\",\n      \"task_field\": \"status\",\n      \"content\": \"inprogress\",\n      \"attachment\": \"false\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/createOrUpdateTask",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"createOrUpdateTask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateOrUpdateTask Copy 2",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"task_id\": \"44444444-2222-2222-2222-222222222222\",\n  \"created_by\": \"daniel\",\n  \"assigned_to\": \"\",\n  \"title\": \"test2 delete Title\",\n  \"description\": \"second delete api description\",\n  \"due_date\": \"2025-06-01\",\n  \"task_contents\": [\n    {\n      \"task_id\": \"44444444-2222-2222-2222-222222222222\",\n      \"task_field\": \"status\",\n      \"content\": \"inprogress\",\n      \"attachment\": \"false\"\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/createOrUpdateTask",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"createOrUpdateTask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateOrUpdateTask No TaskId",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"created_by\": \"daniel\",\n  \"assigned_to\": \"\",\n  \"title\": \"test3 delete Title\",\n  \"description\": \"second delete api description\",\n  \"due_date\": \"\",\n  \"task_contents\": [\n    {\n      \"task_field\": \"status\",\n      \"content\": \"inprogress\",\n      \"attachment\": \"false\"\n    },\n    {\n      \"task_field\": \"custom_field1\",\n      \"content\": \"https://www.pirros.com/\",\n      \"attachment\": \"true\"\n    },\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/createOrUpdateTask",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"createOrUpdateTask"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTask",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"task_id\": \"33333333-2222-2222-2222-222222222222\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/deleteTask",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"deleteTask"
 					]
 				}
 			},
