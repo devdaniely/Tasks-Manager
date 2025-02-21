@@ -1,3 +1,26 @@
+# Dev Update
+
+### Demo
+<video src="./demo.mov" controls width="640"></video>
+
+### [Click here to see the Design Document](./design/Pirros%20TaskManagement%20Design.md)
+
+### How to Build/Run
+1. Download repo
+2. In PostgreSQL, create new database called `pirrosdb`
+    1. Create new user with `CREATE USER appUser WITH SUPERUSER PASSWORD 'pirrospw'`
+    2. In project directory, open psql console with `psql pirrosdb`
+    3. Run setup file with `\i ./design/sql/database_setup.sql`
+    4. Run populate file with `\i ./design/sql/database_populate.sql`
+    5. Exit psql console with `ctrl + d`
+3. Build the project `turbo build`
+4. Run the server `turbo dev`
+5. Navigate to project url `localhost:8080/tasks`
+6. Find login information in [User Login Info](./design/sql/database_populate.sql)
+
+------
+------
+
 <p align="center">
   <a href="https://pirros.com" target="blank"><img src="https://uploads-ssl.webflow.com/63e69607c67db349b0dc92e9/63fe71e9519e3f857b72dc38_logo-black.png" width="200" alt="Pirros, Inc." /></a>
 </p>
