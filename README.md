@@ -1,7 +1,7 @@
 # Dev Update
 
-### Demo
-<video src="./demo.mov" controls width="640"></video>
+### [Demo](./demo.mov)
+<video src="demo.mov" controls width="640"></video>
 
 ### [Click here to see the Design Document](./design/Pirros%20TaskManagement%20Design.md)
 
