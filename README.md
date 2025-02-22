@@ -1,9 +1,12 @@
 # Dev Update
 
-### [Demo](./demo.mp4)
-<video src="demo.mp4" controls width="640"></video>
+### [Demo video](./demo.mp4)
 
-### [Click here to see the Design Document](./design/Pirros%20TaskManagement%20Design.md)
+https://github.com/user-attachments/assets/705eaa42-f41f-45ec-a599-68c927d91036
+
+-----
+
+## [Click here to see the Design Document](./design/Pirros%20TaskManagement%20Design.md)
 
 ### How to Build/Run
 1. Download repo
